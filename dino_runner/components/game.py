@@ -11,6 +11,7 @@ from dino_runner.utils.constants import (BG,
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.player_hearts.heart_manager import HeartManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 class Game:
     def __init__(self):
@@ -26,6 +27,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.heart_manager = HeartManager()
+        self.power_up_manager = PowerUpManager()
         self.points = 0
         
 
@@ -34,7 +36,7 @@ class Game:
         self.points += 1
         if self.points % 100 == 0:
             self.game_speed += 1
-        print(self.points)
+        self.player.check_invicibility()
 
     def run(self):
         # Game loop: events - update - draw
@@ -54,6 +56,7 @@ class Game:
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
         self.obstacle_manager.update(self.game_speed, self)
+        self.power_up_manager.update(self.points, self.game_speed, self.player)
         self.increase_score()
 
     def draw(self):
@@ -63,6 +66,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
+        self.power_up_manager.draw(self.screen)
         self.heart_manager.draw(self.screen)
         pygame.display.update()#actualiza los objetos
         pygame.display.flip()#muestra los cambios
