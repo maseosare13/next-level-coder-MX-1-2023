@@ -1,6 +1,7 @@
 import pygame
 import os
 
+
 # Global Constants
 TITLE = "Chrome Dino Runner"
 SCREEN_HEIGHT = 600
@@ -72,5 +73,6 @@ HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
-
+HEART_TYPE = "heart"
+HAMMER_TYPE = "hammer"
 LIVES = 4

@@ -14,12 +14,15 @@ class ObstacleManager:
     def update(self, game_speed, game):
 
         if len(self.obstacles) == 0:
-            if random.randint(0, 2) == 0:
-                self.obstacles.append(Cactus(SMALL_CACTUS)) 
-            elif random.randint(0, 2) == 1:
-                self.obstacles.append(Cactus(LARGE_CACTUS)) 
-            elif random.randint(0, 2) == 2:
-                self.obstacles.append(Bird(BIRD))
+            type = random.randint(0,2)
+            match type:
+                case 0:
+                    self.obstacles.append(Bird(BIRD))
+                case 1:
+                    self.obstacles.append(Cactus(SMALL_CACTUS))
+                case 2:
+                    self.obstacles.append(Cactus(LARGE_CACTUS))
+                    
 
         for obstacle in self.obstacles:
             obstacle.update(game_speed, self.obstacles)
@@ -32,8 +35,8 @@ class ObstacleManager:
                     pygame.time.delay(300)
                     game.playing = False
                     break
-                else:
-                    self.obstacles.remove(obstacle)
+                
+                self.obstacles.remove(obstacle)
 
     def draw(self, screen):
         for obstacle in self.obstacles:

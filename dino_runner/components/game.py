@@ -12,7 +12,7 @@ from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.player_hearts.heart_manager import HeartManager
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
-
+from dino_runner.components.hearts_up.heart_up_manager import HeartUpManager
 class Game:
     def __init__(self):
         pygame.init()
@@ -28,6 +28,7 @@ class Game:
         self.obstacle_manager = ObstacleManager()
         self.heart_manager = HeartManager()
         self.power_up_manager = PowerUpManager()
+        self.heart_up_manager = HeartUpManager()
         self.points = 0
         
 
@@ -57,6 +58,7 @@ class Game:
         self.player.update(user_input)
         self.obstacle_manager.update(self.game_speed, self)
         self.power_up_manager.update(self.points, self.game_speed, self.player)
+        self.heart_up_manager.update(self.points, self.game_speed, self)
         self.increase_score()
 
     def draw(self):
@@ -66,6 +68,7 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
+        self.heart_up_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
         self.heart_manager.draw(self.screen)
         pygame.display.update()#actualiza los objetos
@@ -81,8 +84,8 @@ class Game:
         self.x_pos_bg -= self.game_speed
     
     def draw_score(self):
-        font = pygame.font.Font(FONT_ARIAL, 30)
-        surface = font.render(str(self.points), True, (0, 0, 0))
+        font = pygame.font.Font(FONT_ARIAL, 20)
+        surface = font.render(str(self.points), True, (255, 0, 0))
         rect = surface.get_rect()
         rect.x = 1000
         rect.y = 10

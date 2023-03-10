@@ -9,8 +9,11 @@ from dino_runner.utils.constants import (
     SHIELD_TYPE,
     RUNNING_SHIELD,
     DUCKING_SHIELD,
-    JUMPING_SHIELD
-    )
+    JUMPING_SHIELD,
+    DUCKING_HAMMER,
+    JUMPING_HAMMER,
+    RUNNING_HAMMER, 
+    HAMMER_TYPE)
 
 class Dinosaur(Sprite):
     POS_X = 80
@@ -20,9 +23,9 @@ class Dinosaur(Sprite):
 
 
     def __init__(self):
-        self.run_img = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}
-        self.duck_img = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
-        self.jump_img = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
+        self.run_img = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
+        self.duck_img = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER}
+        self.jump_img = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER}
         self.type = DEFAULT_TYPE
         self.image = self.run_img[self.type][0]
 
@@ -39,6 +42,7 @@ class Dinosaur(Sprite):
     def setup_states(self):
         self.has_power_up = False
         self.shield = False
+        self.hammer = False
         self.shield_time_up = 0
 
     def update(self, user_input):
@@ -100,6 +104,13 @@ class Dinosaur(Sprite):
             if not time_to_show >= 0:
                 self.shield = False
                 self.update_to_default(SHIELD_TYPE)
+                
+        if self.hammer:
+            time_to_show = round((self.shield_time_up - pygame.time.get_ticks()) / 1000, 2)
+            if not time_to_show >= 0:
+                self.hammer = False
+                self.update_to_default(SHIELD_TYPE)
+
 
     def update_to_default(self, current_type):
         if self.type == current_type:
